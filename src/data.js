@@ -38,11 +38,11 @@ export default [
                 type: 'replies'
             },
             {
-                message: 'how are you',
+                message: 'good to see you',
                 type: 'replies'
             },
             {
-                message: 'hi 2',
+                message: 'I hope you are enjoying',
                 type: 'sent'
             },
             {
