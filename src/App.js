@@ -4,14 +4,25 @@ import ContactsList from './ContactsList'
 import ContactContent from './ContactContent'
 import contacts from './data'
 import './App.css';
+import io from 'socket.io-client'
+// const io = require('socket.io-client')
 
 class App extends Component {
-	state = {
-		selected:0
+	constructor(props) {
+		super(props)
+		this.state = {
+			selected:0
+		}
+		this.socket = io.connect('http://localhost:5000')
+		this.onContactSelect = (id) => {
+			this.setState({selected:id})
+		}
+		this.socket.on('RECEIVE_MESSAGE', function(data){
+			console.log('messaage recived', data)
+		});
+		this.socket.emit('SEND_MESSAGE', 'hi there')
 	}
-	onContactSelect = (id) => {
-		this.setState({selected:id})
-	 }
+	
 	render() {
 		return (
 			<div>
