@@ -11,26 +11,45 @@ class App extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			selected:0
+			selected:0,
+			users:[],
+			myProfile: {
+				id:null,
+				name:'temp',
+				imageUrl:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd_nySYgvYJrWrRbDDBoo1izr89qHXzS_GujLRyi2JcrDv3QVmrQ'
+			}
 		}
 		this.socket = io.connect('http://localhost:5000')
 		this.onContactSelect = (id) => {
 			this.setState({selected:id})
 		}
-		this.socket.on('RECEIVE_MESSAGE', function(data){
+		this.socket.on('RECEIVE_MESSAGE', (data) => {
 			console.log('messaage recived', data)
 		});
+		this.socket.on('YOUR_ID', (id) => {
+			console.log('id received', id)
+			this.setState({myProfile:{...this.state.myProfile, id}})
+		});
+		this.socket.on('RECEIVE_USERS', (users) => {
+			console.log('id received', users)
+			this.setState({users})
+		})
 		this.socket.emit('SEND_MESSAGE', 'hi there')
+	}
+
+	componentWillUnmount(){
+		this.socket.disconnect(this.state.myProfile.id)
 	}
 	
 	render() {
+		const { myProfile, users } = this.state;
 		return (
 			<div>
 				<div id="sidepanel">
 					<div id="profile">
 						<div className="wrap">
-							<img id="profile-img" src="http://emilcarlsson.se/assets/mikeross.png" className="online" alt="" />
-							<p>Mike Ross</p>
+							<img id="profile-img" src={myProfile.imageUrl} className="online" alt="" />
+							<p>{myProfile.name}</p>
 							<i className="fa fa-chevron-down expand-button" aria-hidden="true"></i>
 							<div id="status-options">
 								<ul>
@@ -54,7 +73,7 @@ class App extends Component {
 						<label htmlFor=""><i className="fa fa-search" aria-hidden="true"></i></label>
 						<input type="text" placeholder="Search contacts..." />
 					</div>
-					<ContactsList contacts={contacts} onContactSelect={this.onContactSelect} selected={this.state.selected}/>
+					<ContactsList contacts={users} onContactSelect={this.onContactSelect} selected={this.state.selected}/>
 				</div>
 				<ContactContent contact={contacts.find(contact => contact.id===this.state.selected)}/>
 			</div>

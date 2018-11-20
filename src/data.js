@@ -2,7 +2,7 @@ export default [
     {
         id:0,
         name: 'seerat',
-        profile: 'http://emilcarlsson.se/assets/louislitt.png',
+        profile: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd_nySYgvYJrWrRbDDBoo1izr89qHXzS_GujLRyi2JcrDv3QVmrQ',
         status: 'online',
         messages: [
             {
