@@ -56,7 +56,7 @@ class App extends Component {
     this.socket.on('RECEIVE_USERS', (users) => {
       console.log('id received', users)
       let newUsers = users.filter(user => user.id !== this.state.myProfile.id)
-      this.setState({ users: newUsers, selected: newUsers[0].id, visibleUsers: users })
+      this.setState({ users: newUsers, selected: newUsers[0] ? newUsers[0].id : 0, visibleUsers: newUsers })
     })
     // this.socket.emit('SEND_MESSAGE', 'hi there')
   }

@@ -10,6 +10,16 @@ class ContactContent extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+  scrollToBottom = () => {
+    this.el.scrollIntoView({ behavior: 'smooth' });
+  }
   render () {
     const { id, imageUrl } = this.props.user
     const { messages, me } = this.props
@@ -23,6 +33,7 @@ class ContactContent extends React.Component {
           messages={messages}
           me={me}
         />
+        <div style={{display:"block"}} ref={el => { this.el = el }} />
         <div className='message-input'>
           <form className='commentForm' onSubmit={(e) => { e.preventDefault(); this.props.onSendMessage(this.state.message) }}>
             <div className='wrap'>
